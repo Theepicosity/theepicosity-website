@@ -52,11 +52,11 @@ s1 {
   padding: 0px;
 }
 a:link {
-	color: #0000cb
+	color: #4444cb
 }
 a:visited {
-	color: #cb00cb
+	color: #cb44cb
 }
 a:active {
-	color: #cb0000
+	color: #cb4444
 }
