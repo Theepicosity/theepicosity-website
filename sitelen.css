@@ -91,6 +91,7 @@ img {
   animation: suno-b 10s infinite;
 }
 button {
+  font-family: Volkhov;
   border-style: none;
   background-color: #ffffff00;
   color: #ff6aff;
