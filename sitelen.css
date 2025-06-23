@@ -85,9 +85,6 @@ fl {
 }
 b {
   color: yellow;
-}
-img {
-  margin: 20px;
   animation: suno-b 10s infinite;
 }
 button {
@@ -98,23 +95,21 @@ button {
   text-shadow: 0px 0px 50px #ffffffff;
   animation: suno-visited 10s infinite;
 }
-.button1 {
-  box-shadow: 0px 0px 20px 0px lime;
+.blinkbutton {
+  margin: 5px;
   animation: suno-kule 10s infinite;
   animation-delay: calc(.1s * --text-position);
-}
-.button2 {
-  box-shadow: 0px 0px 20px 0px cyan;
-  animation: suno-kule 10s infinite;
-  animation-delay: calc(.1s * --text-position);
+  text-align: center;
 }
 .pfp {
-  width: 90%;
+  width: 85%;
+  margin: 20px;
   border-radius: 70px;
   border: 10px solid lime;
   box-shadow: 0px 0px 20px -5px lime;
   animation: suno-kule 10s infinite;
   animation-delay: calc(.1s * --text-position);
+  text-align: center;
 }
 .sijelo2 {
   flex: 79%;
