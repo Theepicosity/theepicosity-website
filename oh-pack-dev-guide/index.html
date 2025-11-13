@@ -8,7 +8,7 @@
 	<body style="background-image: url('bg.jpg');">
 		<h1>Open Hexagon Pack Dev Guide</h1>
 		<h2><i>by Theepicosity</i></h2>
-		<br/><sijelo><s1>
+		<br/><br/><sijelo><s1>
 		Hello! My name is theepie, and welcome to my pack dev guide! This is to help you understand the more complicated aspects of creating levels and packs in Open Hexagon.
 		<br/>
 		The format of this guide is like a combination of encyclopedia and FAQ. Each entry will explain a topic, including usage, methods, examples, and best practices. For a more detailed reference, check out the <a href="https://github.com/vittorioromeo/SSVOpenHexagon/wiki/">Open Hexagon Repository Wiki</a>.
@@ -115,9 +115,37 @@
 		<h3 id="pseudogame">Pseudogame</h3>
 			Pseudogame is a powerful <a href="#libraries">library</a> which recreates the entire game in custom walls, allowing for custom visual effects. To use it, add it as a <a href="#dependencies">dependency</a> to your pack.
 			<br/>
-			Pseudogame comes with many example levels to help you. I would recommend getting started with <code>examplelevel.lua</code>, which is the bare minimum for recreating the whole game in pseudogame. From there, you can work your way through the examples to see how to do various effects, and even try to make your own new effects.
+			As a quick tutorial, let's see how you might set up a simple glowing wall effect:
+			<ol>
+				<li>First, let's start by hiding the default game with <code>PseudoGame.hide_default_game()</code>.
+				<li>Next, we create a new game and assign it to the <code>game</code> variable, like so: <code>game = PseudoGame.game.Game:new()</code>.
+				<li>Then, we overwrite the default game functions with <code>game:overwrite()</code>; this will allow us to spawn walls and such. We should also make sure to restore them when we exit the level by using <code>function onPreUnload() game:restore() end</code>.
+				<li>Now comes the interesting part! For this simple example, we are going to set <code>PseudoGame.graphics.effects.draw_directly = true</code>, which will cause our glow effect to be drawn directly to the screen. You could also keep this off, in which case you will have to specify a polygon collection to add to, and then draw that collection to the screen.
+				<li>We will use the following code to create our effect:
+<pre><code>function onInput(frametime, movement, focus, swap)
+    game:update(frametime, movement, focus, swap)
+    for i = 1, #game.collections do
+        PseudoGame.graphics.screen:draw_polygon_collection(game.collections[i])
+        if i == 3 then
+            PseudoGame.graphics.effects:gradient_glow(game.collections[i], 10, 1.5, 3)
+        end
+    end
+    PseudoGame.graphics.screen:update()
+end</code></pre>
+				Let's see what each of these parts is doing:
+				<ol type="a">
+					<li>First, we should note that this is running in <code>onInput</code>. This function is automatically called every tick. (one quarter-frame or 1/240th of a second)
+					<li>On the next line, we update the game using the input.
+					<li>Then, we start a for loop, iterating over each polygon collection in the game. Pseudogame has five different components per game: <code>background</code>, <code>pseudo3d</code>, <code>walls</code>, <code>pivot</code>, and <code>player</code>, and each component has its own polygon collection.
+					<li>On the fourth line, we draw each component to the screen.
+					<li>Then, we check if the index is equal to 3. The third component is the <code>walls</code> component, so this is basically checking to see if we are drawing the walls.
+					<li>If we are indeed drawing the walls, then we add in a glow effect. <code>PseudoGame.graphics.effects:gradient_glow</code> takes four arguments: the polygon collection to make the glow from, the size of the glow, the opacity of the glow, and the detail of the corners. Additionally, there is a fifth optional argument, which is the polygon collection to draw the glow to-- you can use this if you disabled direct drawing earlier.
+					<li>Then we exit out of the if statement and the loop, and finally we update the screen to render all of the walls.
+				</ol><br/>
+				And there we have it! A simple glowing wall effect made using Pseudogame.
+			</ol>
 			<br/>
-			A full Pseudogame tutorial is unfortunately beyond the scope of this guide. Pseudogame does come with its own <a href="https://bauumm.github.io/lib_pseudogame/">documentation</a> to help you learn.
+			Pseudogame comes with many example levels to help you learn. I would recommend getting started with <code>examplelevel.lua</code>, which is the bare minimum for recreating the whole game in pseudogame. From there, you can work your way through the examples to see how to do various effects, and even try to make your own new effects. I would also recommend checking out the <a href="https://bauumm.github.io/lib_pseudogame/">Pseudogame Documentation</a>.
 		<br/><br/>
 
 		<h3 id="renderstages">Render Stages</h3>

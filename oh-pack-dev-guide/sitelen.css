@@ -63,12 +63,15 @@ code {
 }
 pre {
   background-color: #00000088;
-  width: 50%;
+  width: 65%;
 }
 br {
   display: block;
   content: "";
   margin-top: 0.4em;
+}
+li {
+  margin-top: 0.2em;
 }
 .blinkbutton {
   margin: 5px;
