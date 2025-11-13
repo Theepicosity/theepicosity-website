@@ -52,7 +52,7 @@
 	}
 ]</code></pre>
 					Remember to seperate each new dependency with a comma!
-				<li>Then, in your level's script file, execute the script like so: <code>u_execDependencyScript("disambiguator", "name", "author", "file")</code>, making sure to replace the <code>disambigutor</code>, <code>name</code>, and <code>author</code> with the one specified in <code>pack.json</code>, and the <code>file</code> with the file in the dependency that you want to execute. In the example, it would be <code>u_execDependencyScript("ohvrvanilla", "base", "vittorio romeo", "utils.lua")</code>
+				<li>Then, in your level's script file, execute the script you want to use like this: <code>u_execDependencyScript("disambiguator", "name", "author", "file")</code>, making sure to replace the <code>disambiguator</code>, <code>name</code>, and <code>author</code> with the one specified in <code>pack.json</code>, and the <code>file</code> with the file in the dependency that you want to execute. In my example, it would be <code>u_execDependencyScript("ohvrvanilla", "base", "vittorio romeo", "utils.lua")</code>
 				<li>Lastly, if you upload your pack to the steam workshop, be sure to press "Add/Remove Required Items" and add all of your dependencies so that people can automatically download the dependencies along with your pack.
 			</ol>
 			See also: <a href="#libraries">Libraries</a>, <a href="#pseudogame">Pseudogame</a>
@@ -161,7 +161,7 @@ end</code></pre>
 				<li><code>RenderStage.PLAYERTRIS</code> for the player.
 				<li><code>RenderStage.TEXT</code> for the text.
 			</ol>
-			These are indexed by number, or (if you have <code>utils.lua</code> from base as a <a href="#dependencies">dependency</a>) their name, given in the code blocks above.
+			These are indexed by number or (if you have <code>utils.lua</code> from base as a <a href="#dependencies">dependency</a>) their name, given in the code blocks above.
 			<br/>
 			See also: <a href="#shaders">Shaders</a>
 		<br/><br/>
