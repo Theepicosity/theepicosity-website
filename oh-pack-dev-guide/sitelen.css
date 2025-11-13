@@ -1,0 +1,123 @@
+@font-face {
+	font-family: "Volkhov";
+	src: url("../Volkhov-Regular.woff2");
+}
+body {
+  background-image: url('bg.jpg');
+  background-color: #000000;
+  color: #ffffff;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  font-size: 22px;
+  font-family: Volkhov;
+  line-height: 1.35;
+  margin-right: 25;
+  margin-left: 25;
+  text-shadow: 0px 0px 15px #000000ff;
+}
+sijelo {
+  display: flex;
+  align-items: flex-start;
+}
+h1 {
+  font-size: 50;
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+  color: #ffff00;
+  text-align: center;
+}
+h2 {
+  font-size: 20;
+  line-height: 0;
+  color: #ff6a00;
+  text-align: center;
+}
+h3 {
+  font-size: 30;
+  margin-top: 0.8em;
+  line-height: 0;
+  color: #ffff00;
+  text-decoration: underline dashed;
+}
+fl {
+  font-size: 16;
+}
+b {
+  color: yellow;
+  animation: suno-b 10s infinite;
+}
+button {
+  font-family: Volkhov;
+  border-style: none;
+  background-color: #ffffff00;
+  color: #ff6aff;
+  text-shadow: 0px 0px 50px #ffffffff;
+  animation: suno-visited 10s infinite;
+}
+code {
+  background-color: #00000088;
+  color: #b0ffd0;
+  margin-right: 1pt;
+  margin-left: 1pt;
+}
+pre {
+  background-color: #00000088;
+  width: 50%;
+}
+br {
+  display: block;
+  content: "";
+  margin-top: 0.4em;
+}
+.blinkbutton {
+  margin: 5px;
+  animation: suno-kule 10s infinite;
+  animation-delay: calc(.1s * --text-position);
+  text-align: center;
+}
+.pfp {
+  width: 85%;
+  margin: 20px;
+  border-radius: 70px;
+  border: 10px solid lime;
+  box-shadow: 0px 0px 20px -5px lime;
+  animation: suno-kule 10s infinite;
+  animation-delay: calc(.1s * --text-position);
+  text-align: center;
+}
+.sijelo2 {
+  flex: 79%;
+  margin-right: 1%;
+}
+.s1 {
+  flex: 79%;
+  margin-right: 1%;
+  padding: 15px;
+  border-style: dashed;
+  border-radius: 10px;
+}
+.s2 {
+  flex: 20%;
+  padding: 0px;
+}
+a:link {
+  color: #6a6aff;
+  animation: suno-link 10s infinite;
+  animation-delay: calc(.1s * --text-position);
+}
+a:visited {
+  color: #ff6aff;
+  animation: suno-visited 10s infinite;
+  animation-delay: calc(.1s * --text-position);
+}
+a:active {
+  color: #ff6a6a;
+}
+.noka {
+  position: absolute;
+  flex: 0%;
+  margin-right: 0%;
+  color: white;
+  text-align: left;
+}

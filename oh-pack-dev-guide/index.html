@@ -1,0 +1,164 @@
+<html lang="en">
+	<head>
+	<link rel="stylesheet" href="./sitelen.css">
+	<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+	</head>
+	<title>Open Hexagon Pack Dev Guide</title>
+	<body style="background-image: url('bg.jpg');">
+		<h1>Open Hexagon Pack Dev Guide</h1>
+		<h2><i>by Theepicosity</i></h2>
+		<br/><sijelo><s1>
+		Hello! My name is theepie, and welcome to my pack dev guide! This is to help you understand the more complicated aspects of creating levels and packs in Open Hexagon.
+		<br/>
+		The format of this guide is like a combination of encyclopedia and FAQ. Each entry will explain a topic, including usage, methods, examples, and best practices. For a more detailed reference, check out the <a href="https://github.com/vittorioromeo/SSVOpenHexagon/wiki/">Open Hexagon Repository Wiki</a>.
+		<br/><br/>
+
+		<h3 id="console">Console</h3>
+			The console is an extremely useful tool for quickly finding and fixing bugs. When Open Hexagon is launched from a console, it will output errors, print statements, and other information to it.
+			<br/>
+			You can open the file <code>ssvopenhexagon-console.exe</code> on Windows to make it start with a console open.
+		<br/><br/>
+		
+		<h3 id="debugmode">Debug Mode</h3>
+			Debug mode is a powerful tool which is essential for any pack developer. To enable it, simply go into the gameplay settings, disable official mode and enable debug mode.
+			<br/>
+			Debug mode gives you access to four different functions, which are accessible by pressing one of four function keys:
+			<ul>
+				<li>F1 will open the <a href="#luaconsole">lua console</a> while in a level.
+				<li>F2 will pause the game while in a level.
+				<li>F3 will reload the .json files for the currently selected level.
+				<li>F4 will reload all of the files in the currently selected pack.
+			</ul>
+			See also: <a href="#officialmode">Official Mode</a>
+		<br/><br/>
+
+		<h3 id="dependencies">Dependencies</h3>
+			Adding a pack as a dependency allows you to borrow scripts from that pack, instead of copying over files. There are three steps to adding a dependency to your pack:
+			<ol>
+				<li>In your <code>pack.json</code> file, add a list of dependencies like so: (using base and extbase as examples)
+<pre><code>"dependencies": [
+	{
+		"disambiguator": "ohvrvanilla",
+		"name": "base",
+		"author": "vittorio romeo",
+		"min_version": 1
+	},
+	{
+		"disambiguator": "library_extbase",
+		"name": "extbase",
+		"author": "syyrion",
+		"min_version": 1008
+	}
+]</code></pre>
+					Remember to seperate each new dependency with a comma!
+				<li>Then, in your level's script file, execute the script like so: <code>u_execDependencyScript("disambiguator", "name", "author", "file")</code>, making sure to replace the <code>disambigutor</code>, <code>name</code>, and <code>author</code> with the one specified in <code>pack.json</code>, and the <code>file</code> with the file in the dependency that you want to execute. In the example, it would be <code>u_execDependencyScript("ohvrvanilla", "base", "vittorio romeo", "utils.lua")</code>
+				<li>Lastly, if you upload your pack to the steam workshop, be sure to press "Add/Remove Required Items" and add all of your dependencies so that people can automatically download the dependencies along with your pack.
+			</ol>
+			See also: <a href="#libraries">Libraries</a>, <a href="#pseudogame">Pseudogame</a>
+		<br/><br/>
+
+		<h3 id="glslang">glslang</h3>
+			glslang is a program that will validate any shader code. This is useful to check for errors in your shader code before starting the game, as shaders with errors will never load when the game is first started. You can get it from your local package manager or from the <a href="https://github.com/KhronosGroup/glslang/releases/tag/main-tot">official binaries</a>.
+			<br/>
+			To use it, type into your console <code>glslang</code> followed by the path of the shader you want to test. If it returns nothing, the shader is fine, and otherwise it will list the error and what line it is on.
+			<br/>
+			Passing glslang does not necessarily mean that your shader will work on all devices. For more information, see the section on <a href="#shadercompat">shader compatibility</a>.
+		<br/><br/>
+
+		<h3 id="leaderboard">Leaderboard</h3>
+			The most popular leaderboard at the moment is Baum's Community Leaderboard. There are a few quirks to keep in mind with regards to pack development:
+			<ul>
+				<li>The leaderboard verifies replays in OH:CE, meaning that for replays to work, your level must be compatable with OH:CE. Assuming your level is error-free and follows good coding practices, this probably won't be an issue.
+				<li>In order for the replays to render correctly, your shader must also be compatible with OH:CE. For more information, see the section on <a href="#shadercompat">shader compatibility</a>.
+				<li>The leaderboard verifies replays in 1024x768 resolution, and renders them in 1920x1080 resolution.
+				<li>Unlike local scores, the leaderboard correctly takes into account custom scores.
+			</ul>
+		<br/><br/>
+
+		<h3 id="libraries">Libraries</h3>
+			Libraries are dedicated packs which are intended to be used as <a href="#dependencies">dependencies</a>. These are typically made up of scripts with some example levels. Below is a list of all of the libraries, with the name, disambiguator, and author provided:
+			<ul>
+				<li>base (<code>ohvrvanilla</code>) by vittorio romeo: Comes pre-installed on the Steam Version. Filled with common functions and basic patterns. Includes <code>utils.lua</code>, <code>common.lua</code>, and <code>commonpatterns.lua</code>, and a few other pattern files used for the default levels.
+				<li>silder (<code>library_slider</code>) by Syyrion: Gives greater control over timed events. (<a href="https://github.com/Syyrion/lib_sliders/wiki">Documentation</a>)
+				<li>polywall (<code>library_polywall</code>) by Syyrion: Custom wall library to recreate the look of regular walls while also allowing greater customization. (<a href="https://github.com/Syyrion/lib_polywall/wiki">Documentation</a>)
+				<li>extbase (<code>library_extbase</code>) by Syyrion: Extended version of base, contains most of the same files but adds new utility functions and namespaced functions. (<a href="https://github.com/Syyrion/lib_extbase/wiki">Documentation</a>)
+				<li>patternizer (<code>library_patternizer</code>) by Syyrion: Scripting language for making patterns. (<a href="https://github.com/Syyrion/lib_patternizer/wiki">Documentation</a>)
+				<li>quantumSpirals (<code>quantumSpirals</code>) by quantum: Special spiral patterns which will exactly match the player speed when holding a direction. I personally recommend mixing these in with regular patterns. (<a href="https://github.com/QuantumHexagon/quantumSpirals/blob/main/README.md">Documentation</a>)
+				<li>march31os_scr_base (<code>library_march31osbasescripts</code>) by march31onne.
+				<li>march31os_ext_base (<code>library_march31osextbase</code>) by march31onne.
+				<li><a href="#pseudogame">pseudogame</a> (<code>library_pseudogame</code>) by Baum: Recreates the entire game in custom walls, allowing for greater customization of nearly all aspects of the game. This library is so powerful that it has its own entry on this guide! (<a href="https://bauumm.github.io/lib_pseudogame/">Documentation</a>)
+				<li>digon (<code>library_digon</code>) by Theepicosity: Makes it easier to create two-sided digon levels.
+			</ul>
+		<br/><br/>
+
+		<h3 id="luaconsole">Lua Console</h3>
+			The Lua console is a useful tool for testing levels. It can be enabled in a level by pressing F1 while in <a href="#debugmode">debug mode</a>.
+			<br/>
+			It allows you to set timewarp, toggle invincibility, and track variables. It also has some commands:
+			<ul>
+				<li><code>!clear</code>, clears the lua console.
+				<li><code>!help</code>, displays a help message with information about all of the commands.
+				<li><code>!ff</code>, fast-forwards the level to a specific time.
+				<li><code>!advt</code>, advances forward time a specific number of ticks.
+				<li><code>?fn</code>, displays documentation for a specific function name.
+			</ul>
+			See also: <a href="#console">Console</a>
+		<br/><br/>
+
+		<h3 id="officialmode">Official Mode</h3>
+			Official mode is the default way of playing Open Hexagon. It enables saving local scores and sending replays to the leaderboard server. Pack developers typically turn it off while making packs, which you can do by going into the gameplay settings and disabling official mode.
+			<br/>
+			Disabling official mode gives you access to a number of new options: in gameplay, you can enable <a href="#debugmode">debug mode</a>, invincibility, and timewarp; in graphics, you can disable the timer and status messages, and in graphics -> visual fxs, you can disable pulse, rotation, and the background, as well as enable black and white mode.
+		<br/><br/>
+
+		<h3 id="pseudogame">Pseudogame</h3>
+			Pseudogame is a powerful <a href="#libraries">library</a> which recreates the entire game in custom walls, allowing for custom visual effects. To use it, add it as a <a href="#dependencies">dependency</a> to your pack.
+			<br/>
+			Pseudogame comes with many example levels to help you. I would recommend getting started with <code>examplelevel.lua</code>, which is the bare minimum for recreating the whole game in pseudogame. From there, you can work your way through the examples to see how to do various effects, and even try to make your own new effects.
+			<br/>
+			A full Pseudogame tutorial is unfortunately beyond the scope of this guide. Pseudogame does come with its own <a href="https://bauumm.github.io/lib_pseudogame/">documentation</a> to help you learn.
+		<br/><br/>
+
+		<h3 id="renderstages">Render Stages</h3>
+			Open Hexagon is rendered in nine different stages. Here is a list of all of the stages:
+			<ol start="0">
+				<li><code>RenderStage.BACKGROUNDTRIS</code> for the background.
+				<li><code>RenderStage.WALLQUADS3D</code> for the wall 3D layers.
+				<li><code>RenderStage.PIVOTQUADS3D</code> for the pivot 3D layers.
+				<li><code>RenderStage.PLAYERTRIS3D</code> for the player 3D layers.
+				<li><code>RenderStage.WALLQUADS</code> for the walls.
+				<li><code>RenderStage.CAPTRIS</code> for the cap.
+				<li><code>RenderStage.PIVOTQUADS</code> for the pivot.
+				<li><code>RenderStage.PLAYERTRIS</code> for the player.
+				<li><code>RenderStage.TEXT</code> for the text.
+			</ol>
+			These are indexed by number, or (if you have <code>utils.lua</code> from base as a <a href="#dependencies">dependency</a>) their name, given in the code blocks above.
+			<br/>
+			See also: <a href="#shaders">Shaders</a>
+		<br/><br/>
+
+		<h3 id="shaders">Shaders</h3>
+			Shaders, added in version 2.1.5, are a massive part of making Open Hexagon levels in the modern day. They are used primarily to make visual effects.
+			<br/>
+			Shaders are located in the <code>Shaders</code> folder of your pack. Each shader is a <code>.frag</code> file written in the GLSL language.
+			<br/>
+			To get the id of a shader, use <code>shader_id = shdr_getShaderId("shader.frag")</code>. To activate the shader, use <code>shdr_setActiveFragmentShader(render_stage, shader_id)</code>, where <code>render_stage</code> is one of the predefined <a href="#renderstages">render stages</a>. For a full list of functions, check out the <a href="https://github.com/vittorioromeo/SSVOpenHexagon/wiki/Lua-Reference#shader-functions-shdr_">Shader Functions Reference</a>.
+			<br/>
+			This is only a brief overview of what shaders do. For more information, check out this <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=2853990778">Open Hexagon Shader Tutorial by Vipre</a>, and this <a href="https://www.youtube.com/watch?v=f4s1h2YETNY">Introduction to Shader Art Coding by kishimisu</a>. You can also get inspired by looking on <a href="https://www.shadertoy.com/">Shadertoy</a>, and I might also suggest keeping the <a href="https://registry.khronos.org/OpenGL-Refpages/es3/">OpenGL Reference Pages</a> bookmarked for easy access.
+		<br/><br/>
+
+		<h3 id="shadercompat">Shader Compatability</h3>
+			Not all devices process shaders in the same way. In particular, the web and mobile versions of OH:CE are written in OpenGL ES, whereas the desktop versions use regular OpenGL. Additionally, different GPUs and drivers may use different versions. For this reason, it is important that your shader is compatible with every device.
+			<br/>
+			The easiest way to do this is with a version tag. This is a tag that goes on the very first line of the shader code and indicates what version the shader is written in:
+			<ul>
+				<li><code>#version 320 es</code> is, in my opinion, the best one to use, as it is the strictest and most up-to-date version. The main downside is that OpenGL ES does things slightly differently compared to classic OpenGL, which at the moment is more common in Open Hexagon levels.
+				<li><code>#version 330 compatibility</code> is slightly more relaxed, but not as likely to work on the web and mobile.
+			</ul>
+			You can also test if your shader works on the web by using <a href="https://www.shadertoy.com/new">Shadertoy</a>.
+			<br/>
+			See also: <a href="#glslang">glslang</a>
+		<br/><br/>
+	</body>
+</html>
